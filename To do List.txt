@@ -1,0 +1,8 @@
+User App
+[  ] Login/Register Page
+[X] Email verification during registration, ncst email only
+[X] Reminder notification about borrowed book
+[  ] Student Profile Page
+[  ] Book Search Page
+[  ] List of borrowed books Page
+[  ] Navigation Drawer (to navigate to diffrent page)
