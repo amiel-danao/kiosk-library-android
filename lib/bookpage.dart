@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:flutter_flowjabol/searchbook.dart';
+=======
+>>>>>>> a1066918a6d8395b9d8436db18a43594e18d9ac7
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -93,11 +96,15 @@ class _BookPageWidget extends State<BookPageWidget> {
               ),
               title: const Text('Search for books'),
               onTap: () {
+<<<<<<< HEAD
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => const SearchBookWidget()),
                 );
+=======
+                Navigator.pop(context);
+>>>>>>> a1066918a6d8395b9d8436db18a43594e18d9ac7
               },
             ),
           ],
@@ -127,8 +134,353 @@ class _BookPageWidget extends State<BookPageWidget> {
                               color: Colors.blue.shade900,
                               width: 7.0,
                             )),
+<<<<<<< HEAD
                         child: Container(
                             color: Colors.white, child: DataTableWidget()),
+=======
+                        child: Table(
+                          defaultColumnWidth: IntrinsicColumnWidth(),
+                          children: [
+                            TableRow(
+                              children: [
+                                TableCell(
+                                  child: Container(
+                                    color: Color(0xFFEEEF08),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 10.0, right: 150),
+                                      child: Container(
+                                        color: Color(0xFFEEEF08),
+                                        child: Text(
+                                          "Title",
+                                          style: TextStyle(
+                                            color: Colors.blue.shade800,
+                                            fontFamily: 'Solitreo',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 25,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                TableCell(
+                                  child: Container(
+                                    color: Color(0xFFEEEF08),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 10.0, right: 50),
+                                      child: Container(
+                                        color: Color(0xFFEEEF08),
+                                        child: Text(
+                                          "Date Borrowed",
+                                          style: TextStyle(
+                                            color: Colors.blue.shade800,
+                                            fontFamily: 'Roboto Condensed',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 25,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                TableCell(
+                                  child: Container(
+                                    color: Color(0xFFEEEF08),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 10.0, right: 50),
+                                      child: Container(
+                                        color: Color(0xFFEEEF08),
+                                        child: Text(
+                                          "Return Date",
+                                          style: TextStyle(
+                                            decoration:
+                                                TextDecoration.underline,
+                                            color: Colors.blue.shade800,
+                                            fontFamily: 'Roboto Condensed',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 25,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            TableRow(
+                              children: [
+                                TableCell(
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 10.0, right: 150, top: 10),
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Text(
+                                          "The Very Hungry Caterpillar",
+                                          style: TextStyle(
+                                            fontFamily: 'Solitreo',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                TableCell(
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 10.0, right: 50, top: 10),
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Text(
+                                          "02/13/2022",
+                                          style: TextStyle(
+                                            fontFamily: 'Roboto Condensed',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                TableCell(
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 10.0, right: 50, top: 10),
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Text(
+                                          "03/13/2022",
+                                          style: TextStyle(
+                                            decoration:
+                                                TextDecoration.underline,
+                                            color: Colors.blue.shade800,
+                                            fontFamily: 'Roboto Condensed',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            TableRow(
+                              children: [
+                                TableCell(
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 10.0, right: 150),
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Text(
+                                          "Introduction to Neuroscience ",
+                                          style: TextStyle(
+                                            fontFamily: 'Solitreo',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                TableCell(
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 10.0, right: 50),
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Text(
+                                          "05/22/2022",
+                                          style: TextStyle(
+                                            fontFamily: 'Roboto Condensed',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                TableCell(
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 10.0, right: 50),
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Text(
+                                          "06/22/2022",
+                                          style: TextStyle(
+                                            decoration:
+                                                TextDecoration.underline,
+                                            color: Colors.blue.shade800,
+                                            fontFamily: 'Roboto Condensed',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            TableRow(
+                              children: [
+                                TableCell(
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 10.0, right: 150),
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Text(
+                                          "Technical Writing and Simple Statistics",
+                                          style: TextStyle(
+                                            fontFamily: 'Solitreo',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                TableCell(
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 10.0, right: 50),
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Text(
+                                          "06/12/2022",
+                                          style: TextStyle(
+                                            fontFamily: 'Roboto Condensed',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                TableCell(
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 10.0, right: 50),
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Text(
+                                          "06/19/2022",
+                                          style: TextStyle(
+                                            decoration:
+                                                TextDecoration.underline,
+                                            color: Colors.blue.shade800,
+                                            fontFamily: 'Roboto Condensed',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            TableRow(
+                              children: [
+                                TableCell(
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 10.0, right: 150),
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Text(
+                                          "Mathematics for Biomedical Physics",
+                                          style: TextStyle(
+                                            fontFamily: 'Solitreo',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                TableCell(
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 10.0, right: 50),
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Text(
+                                          "07/03/2022",
+                                          style: TextStyle(
+                                            fontFamily: 'Roboto Condensed',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                TableCell(
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 10.0, right: 50),
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Text(
+                                          "08/03/2022",
+                                          style: TextStyle(
+                                            decoration:
+                                                TextDecoration.underline,
+                                            color: Colors.blue.shade800,
+                                            fontFamily: 'Roboto Condensed',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+>>>>>>> a1066918a6d8395b9d8436db18a43594e18d9ac7
                       ),
                     ),
                   ],
@@ -139,6 +491,7 @@ class _BookPageWidget extends State<BookPageWidget> {
     );
   }
 }
+<<<<<<< HEAD
 
 class DataTableWidget extends StatelessWidget {
   final List<Map<String, String>> listOfColumns = [
@@ -233,3 +586,5 @@ class DataTableWidget extends StatelessWidget {
     );
   }
 }
+=======
+>>>>>>> a1066918a6d8395b9d8436db18a43594e18d9ac7
