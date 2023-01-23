@@ -6,6 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'homepage.dart';
+import 'searchbook.dart';
+import 'bookpage.dart';
 
 class ProfilePageWidget extends StatefulWidget {
   const ProfilePageWidget({Key? key}) : super(key: key);
@@ -83,7 +85,24 @@ class _ProfilePageWidget extends State<ProfilePageWidget> {
               ),
               title: const Text('Borrowed Books'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const BookPageWidget()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.search,
+              ),
+              title: const Text('Borrowed Books'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SearchBookWidget()),
+                );
               },
             ),
           ],
