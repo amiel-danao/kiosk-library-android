@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "flutter_flowjabol" "\0"
+            VALUE "FileDescription", "ncst_kiosk_library" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "flutter_flowjabol" "\0"
+            VALUE "InternalName", "ncst_kiosk_library" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "flutter_flowjabol.exe" "\0"
-            VALUE "ProductName", "flutter_flowjabol" "\0"
+            VALUE "OriginalFilename", "ncst_kiosk_library.exe" "\0"
+            VALUE "ProductName", "ncst_kiosk_library" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

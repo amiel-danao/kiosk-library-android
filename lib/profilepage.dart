@@ -5,15 +5,19 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'homepage.dart';
-import 'searchbook.dart';
-import 'bookpage.dart';
+import 'package:ncst_kiosk_library/widgets/side_drawer_widget.dart';
+import 'login_page.dart';
+import 'models/student.dart';
+import 'search_book.dart';
+import 'book_page.dart';
 
 class ProfilePageWidget extends StatefulWidget {
-  const ProfilePageWidget({Key? key}) : super(key: key);
+  final Student student;
+
+  const ProfilePageWidget({Key? key, required this.student}) : super(key: key);
 
   @override
-  _ProfilePageWidget createState() => _ProfilePageWidget();
+  State<ProfilePageWidget> createState() => _ProfilePageWidget();
 }
 
 class _ProfilePageWidget extends State<ProfilePageWidget> {
@@ -51,63 +55,8 @@ class _ProfilePageWidget extends State<ProfilePageWidget> {
         centerTitle: false,
         elevation: 2,
       ),
-      endDrawer: Drawer(
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                  color: Color(0xFF0329CC),
-                  image: DecorationImage(
-                    image: NetworkImage(
-                        'https://pbs.twimg.com/profile_images/1227140400877453318/y7lBi1Gd_400x400.jpg'),
-                    fit: BoxFit.fitHeight,
-                  )),
-              child: Text(''),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.home,
-              ),
-              title: const Text('Login Page'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const HomePageWidget()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.book_outlined,
-              ),
-              title: const Text('Borrowed Books'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const BookPageWidget()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.search,
-              ),
-              title: const Text('Borrowed Books'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SearchBookWidget()),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
+      endDrawer:
+      SideDrawerWidget(student: widget.student,),
       body: Column(
         children: [
           Expanded(

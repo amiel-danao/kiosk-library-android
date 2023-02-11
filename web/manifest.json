@@ -1,6 +1,6 @@
 {
-    "name": "flutter_flowjabol",
-    "short_name": "flutter_flowjabol",
+    "name": "ncst_kiosk_library",
+    "short_name": "ncst_kiosk_library",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
