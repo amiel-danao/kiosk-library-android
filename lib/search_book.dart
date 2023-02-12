@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:json_table/json_table.dart';
 import 'package:ncst_kiosk_library/models/book_instance.dart';
+import 'package:ncst_kiosk_library/pages/book_detail.dart';
 import 'package:ncst_kiosk_library/widgets/loading.dart';
 import 'package:ncst_kiosk_library/widgets/side_drawer_widget.dart';
+import 'package:simple_logger/simple_logger.dart';
 import 'controller/book_instance_controller.dart';
 import 'models/student.dart';
 
@@ -19,8 +21,8 @@ class SearchBookWidget extends StatefulWidget {
 class _SearchBookWidget extends State<SearchBookWidget> {
   final _unFocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final logger = SimpleLogger();
   late Future<String> books;
-  // bool isLoading = false;
 
   final columns = [
     JsonTableColumn("title", label: "Title"),
@@ -31,19 +33,27 @@ class _SearchBookWidget extends State<SearchBookWidget> {
     JsonTableColumn("location", label:"Location"),
     JsonTableColumn("borrow_count", label:"Borrow Count"),
   ];
+  bool isLoading = false;
+  late String? jsonSample;
 
+  dynamic decoded;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   getBooks();
-  // }
-  //
-  // void getBooks() async {
-  //   setState(()=>isLoading=true);
-  //   books = fetchBooksInstances();
-  //   setState(()=>isLoading=false);
-  // }
+  @override
+  initState(){
+    super.initState();
+    getBooks();
+  }
+
+  getBooks() async {
+    setState(() {
+      isLoading = true;
+    });
+    jsonSample = await fetchBooksInstances();
+    decoded = jsonDecode(jsonSample as String);
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   void dispose() {
@@ -53,6 +63,7 @@ class _SearchBookWidget extends State<SearchBookWidget> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
@@ -64,14 +75,6 @@ class _SearchBookWidget extends State<SearchBookWidget> {
 
           fit: BoxFit.fitHeight,
         ),
-
-        // Image.network(
-        //   'https://pbs.twimg.com/profile_images/1227140400877453318/y7lBi1Gd_400x400.jpg',
-        //   width: 100,
-        //   height: 100,
-        //   fit: BoxFit.fill,
-        // ),
-
         title: const Text(
           'NCST',
           style: TextStyle(
@@ -86,7 +89,16 @@ class _SearchBookWidget extends State<SearchBookWidget> {
       ),
       endDrawer:
       SideDrawerWidget(student: widget.student,),
-      body: Column(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          getBooks();
+        },
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+        child: const Icon(Icons.search),
+      ),
+      body:
+      Column(
         children: [
           Expanded(
             child: Container(
@@ -117,78 +129,82 @@ class _SearchBookWidget extends State<SearchBookWidget> {
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child:
-                        FutureBuilder<String?>(
-                          future: fetchBooksInstances(),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState == ConnectionState.done) {
-                              if (snapshot.hasData) {
-                                return Column(
-                                    children: <Widget>[JsonTable(jsonDecode(snapshot.data??'[]'),
-                                    columns: columns,
-                                    paginationRowCount: 10,
-                                    allowRowHighlight: true,
-                                    rowHighlightColor: Colors.yellow[500]?.withOpacity(0.7))]);
-                              }
-                              else{
-                                return
-                                  Expanded(child:
-                                  Column(
-                                    children: [
-                                      const SearchTableWidget(),
-                                  Container(decoration: const BoxDecoration(color: Colors.white), child: const Text('No books'),)
-                                  ],));
 
-                              }
-                            }
-                            else if (snapshot.connectionState == ConnectionState.active){
-                              return const CircularProgressIndicator();
-                            }
 
-                            return const Text('No books');
-                          },
-                        )
 
-                        // JsonTable(jsonDecode(books), columns: columns),
 
-                      // FutureBuilder<List<BookInstance>>(
-                      //   future: fetchBooksInstances(),
-                      //   builder: (context, snapshot) {
-                      //     if (snapshot.connectionState == ConnectionState.done) {
-                      //       books = snapshot.data;
-                      //       if (snapshot.hasData) {
-                      //         return Container(
-                      //           decoration: BoxDecoration(
-                      //             border: Border.all(color: Colors.grey),
-                      //           ),
-                      //           child: SearchTableWidget(books: books)
-                      //         );
-                      //       } else {
-                      //         return Row(
-                      //           children: const <Widget>[
-                      //             SizedBox(
-                      //               // ignore: sort_child_properties_last
-                      //               child: CircularProgressIndicator(),
-                      //               width: 30,
-                      //               height: 30,
-                      //             ),
-                      //             Padding(
-                      //               padding: EdgeInsets.all(40),
-                      //               child: Text('No Data Found...'),
-                      //             ),
-                      //           ],
-                      //         );
-                      //       }
-                      //     } else {
-                      //       return
-                      //         circularProgress();
-                      //     }
-                      //   },
-                      // ),
-                      //
-                    ),
+                      SingleChildScrollView(
+                        padding: const EdgeInsets.all(16.0),
+                        child:
+
+                            Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(width: 0.5, color: Colors.grey)
+                                  , color: Colors.grey.withAlpha(128)),
+                              child: Column(
+                              children: <Widget>[
+                                (isLoading)?
+                                circularProgress():
+                                JsonTable(
+                                  decoded,
+                                  columns: columns,
+                                  showColumnToggle: true,
+                                  paginationRowCount: 10,
+                                  allowRowHighlight: true,filterTitle: 'Toggle Columns',
+                                  rowHighlightColor: Colors.yellow[500]?.withOpacity(0.7),
+                                  onRowSelect: (index, map) {
+                                    var encoded = jsonEncode(map);
+                                    logger.info(encoded);
+                                    var decoded = jsonDecode(encoded);
+                                    var bookInstance = BookInstance.fromJson(decoded);
+
+
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => BookDetailsWidget(bookRef: bookInstance, student: widget.student)),
+                                    );
+                                  },
+                                  tableHeaderBuilder: (header) {
+                                    return Container(
+                                      padding: const EdgeInsets.all(9),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(width: 0.5, color: Colors.grey)
+                                          , color: Colors.white),
+                                      child: Text(
+                                        header!,
+                                        textAlign: TextAlign.center,
+                                        style: Theme.of(context).textTheme.headlineMedium,
+                                      ),
+                                    );
+                                  },
+                                  tableCellBuilder: (value) {
+                                    return Container(
+                                      padding: const EdgeInsets.all(16),
+                                      decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.grey), color: Colors.white),
+                                      child: Text(
+                                        value,
+                                        textAlign: TextAlign.center,
+                                        style: Theme.of(context).textTheme.bodyLarge,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),)
+
+
+
+
+
+
+                      ),
+
+
+
+
+
+
 
                   ],
                 )),
@@ -253,17 +269,4 @@ class SearchTableWidget extends StatelessWidget {
     );
   }
 
-  DataRow _getDataRow(int index, BookInstance book) {
-    return DataRow(
-      cells: <DataCell>[
-        DataCell(Text(book.title)),//add name of your columns here
-        DataCell(Text(book.author)),
-        DataCell(Text(book.genre)),
-        DataCell(Text(book.publishDate)),
-        DataCell(Text(book.status)),
-        DataCell(Text(book.location)),
-        DataCell(Text('${book.borrowCount}')),
-      ],
-    );
-  }
 }

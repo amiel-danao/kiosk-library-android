@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../book_page.dart';
-import '../login_page.dart';
 import '../models/student.dart';
 import '../search_book.dart';
 
@@ -16,6 +15,7 @@ class SideDrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Colors.white,
       child: ListView(
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
@@ -30,22 +30,25 @@ class SideDrawerWidget extends StatelessWidget {
                 )),
             child: Text(''),
           ),
+
           ListTile(
             leading: const Icon(
-              Icons.home,
+              Icons.search,
+              color: Colors.black,
             ),
-            title: const Text('Login Page'),
+            title: const Text('Search Books'),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const LoginPageWidget()),
+                    builder: (context) => SearchBookWidget(student: student,)),
               );
             },
           ),
           ListTile(
             leading: const Icon(
               Icons.book_outlined,
+              color: Colors.black,
             ),
             title: const Text('Borrowed Books'),
             onTap: () {
@@ -53,19 +56,6 @@ class SideDrawerWidget extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) => BookPageWidget(student: student,)),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(
-              Icons.search,
-            ),
-            title: const Text('Borrowed Books'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => SearchBookWidget(student: student,)),
               );
             },
           ),

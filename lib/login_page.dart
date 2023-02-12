@@ -192,6 +192,12 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                   }
                                                   else{
                                                     logger.info(response.body);
+                                                    if(mounted){
+                                                    ScaffoldMessenger.of(context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                          content: Text(response.body)),
+                                                    );}
                                                   }
                                                   setState(() {
                                                     isLoading = false;
@@ -220,6 +226,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                           ),
                                         ),
                                       ),
+                                      /*
                                       Padding(
                                         padding: const EdgeInsets.all(0.0),
                                         child: SizedBox(
@@ -253,6 +260,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                           ),
                                         ),
                                       ),
+                                    */
                                     ],
                                   ),
                                 )

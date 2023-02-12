@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
           displayLarge: const TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
           titleLarge: const TextStyle(fontSize: 36.0),
           bodyMedium: const TextStyle(fontSize: 14.0, fontFamily: 'Solitreo', color: Colors.black),
+          bodyLarge: const TextStyle(fontFamily: 'Solitreo', color: Colors.black),
           headlineMedium: TextStyle(
             color: Colors.blue.shade800,
             fontFamily: 'Solitreo',

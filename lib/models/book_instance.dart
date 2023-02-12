@@ -7,6 +7,7 @@ class BookInstance {
   final String status;
   final int borrowCount;
   final String location;
+  final String? thumbnail;
 
   const BookInstance({
     required this.id,
@@ -17,6 +18,7 @@ class BookInstance {
     required this.status,
     required this.borrowCount,
     required this.location,
+    this.thumbnail,
   });
 
   factory BookInstance.fromJson(Map<String, dynamic> json) => BookInstance(
@@ -28,6 +30,7 @@ class BookInstance {
     status: json['status'] ?? "",
     location: json['location'] ?? "",
     borrowCount: json['borrow_count'] ?? "",
+    thumbnail: json['thumbnail'],
   );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -39,5 +42,6 @@ class BookInstance {
     'status': status,
     'location': location,
     'borrow_count': borrowCount,
+    'thumbnail': thumbnail??'',
   };
 }
