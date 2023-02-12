@@ -1,15 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ncst_kiosk_library/widgets/side_drawer_widget.dart';
-import 'login_page.dart';
 import 'models/student.dart';
-import 'search_book.dart';
-import 'book_page.dart';
 
 class ProfilePageWidget extends StatefulWidget {
   final Student student;
