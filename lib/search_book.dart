@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:json_table/json_table.dart';
 import 'package:ncst_kiosk_library/models/book_instance.dart';
 import 'package:ncst_kiosk_library/pages/book_detail.dart';
+import 'package:ncst_kiosk_library/widgets/dropdown.dart';
 import 'package:ncst_kiosk_library/widgets/loading.dart';
 import 'package:ncst_kiosk_library/widgets/side_drawer_widget.dart';
 import 'package:simple_logger/simple_logger.dart';
@@ -39,6 +40,10 @@ class _SearchBookWidget extends State<SearchBookWidget> {
 
   dynamic decoded;
 
+  final List<String> bookStates= ["All", "On loan", "Available", "Reserved"];
+
+  String selectedStatus = '';
+
   @override
   initState(){
     super.initState();
@@ -49,9 +54,10 @@ class _SearchBookWidget extends State<SearchBookWidget> {
     setState(() {
       isLoading = true;
     });
-    jsonSample = await fetchBooksInstances(searchInput.value.text);
-    decoded = json.decode(jsonSample as String);
+    jsonSample = await fetchBooksInstances(searchInput.value.text, status: selectedStatus);
+
     setState(() {
+      decoded = json.decode(jsonSample as String);
       isLoading = false;
     });
   }
@@ -135,24 +141,41 @@ class _SearchBookWidget extends State<SearchBookWidget> {
                           ),
                           filled: true,
                           fillColor: Colors.white,
-                          hintText: "Search for books",
+                          hintText: "Search for title/author",
                           hintStyle: Theme.of(context).textTheme.bodyMedium,
                         ),
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ),
-
-
-
-
-
-
                             Container(
                               decoration: BoxDecoration(
                                   border: Border.all(width: 0.5, color: Colors.grey)
                                   , color: Colors.grey.withAlpha(128)),
                               child: Column(
                               children: <Widget>[
+                                Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child:Row(
+                                  children: [
+                                    const Text('Status:'),
+                                    DropdownButtonExample(list: bookStates, onChange: (str){
+                                      if (str == 'All'){
+                                        setState(() {
+                                          selectedStatus = '';
+                                        });
+                                      }
+                                      else {
+                                        int index = bookStates.indexOf(str!) -
+                                            1;
+                                        logger.info('state: $index');
+                                        setState(() {
+                                          selectedStatus = '$index';
+                                        });
+                                      }
+                                      getBooks();
+                                    })],
+                                )),
+
                                 (isLoading)?
                                 circularProgress():
                                 (decoded == null || decoded.length == 0)?
@@ -161,16 +184,16 @@ class _SearchBookWidget extends State<SearchBookWidget> {
                                 JsonTable(
                                   decoded,
                                   columns: columns,
-                                  showColumnToggle: true,
+                                  // showColumnToggle: true,
                                   paginationRowCount: 10,
-                                  allowRowHighlight: true,filterTitle: 'Toggle Columns',
+                                  allowRowHighlight: true,
+                                  // filterTitle: 'Toggle Columns',
                                   rowHighlightColor: Colors.yellow[500]?.withOpacity(0.7),
                                   onRowSelect: (index, map) {
                                     var encoded = jsonEncode(map);
                                     logger.info(encoded);
                                     var decoded = jsonDecode(encoded);
                                     var bookInstance = BookInstance.fromJson(decoded);
-
 
                                     Navigator.push(
                                       context,
@@ -197,7 +220,7 @@ class _SearchBookWidget extends State<SearchBookWidget> {
                                       decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.grey), color: Colors.white),
                                       child: Text(
                                         value,
-                                        textAlign: TextAlign.center,
+                                        textAlign: TextAlign.left,
                                         style: Theme.of(context).textTheme.bodyLarge,
                                       ),
                                     );

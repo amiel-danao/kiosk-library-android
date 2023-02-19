@@ -1,10 +1,11 @@
 import 'package:http/http.dart' as http;
 import '../utils/environment.dart';
 
-Future<String?> fetchBooksInstances(String searchKey) async {
+Future<String?> fetchBooksInstances(String searchKey, {String status=''}) async {
   String? books;
   final queryParameters = {
     'search': searchKey,
+    'status': status
   };
   final uri = Uri.https(Environment.domain, '/${Environment.bookInstanceUrl}', queryParameters);
   // final uri = Uri.parse(Environment.bookInstanceUrl);

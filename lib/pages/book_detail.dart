@@ -46,7 +46,7 @@ class _BookDetailsWidgetState extends State<BookDetailsWidget>
     }
 
     res = await fetchReservedBook(bookInstanceId: widget.bookRef.id);
-    if(res != null){
+    if(res != null || widget.bookRef.status == 'Reserved'){
       setState(() {
         isReserved = true;
       });
@@ -136,16 +136,19 @@ class _BookDetailsWidgetState extends State<BookDetailsWidget>
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  isReserved?
-
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.red,
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    child: Padding(padding: const EdgeInsetsDirectional.all(5), child: Text((allowedToReserve)?'This book was already reserved':'You already have a book reservation'),),)
-
-                      : Container(),
+                    child: Padding(padding: const EdgeInsetsDirectional.all(5),
+                      child:
+                      Column(children: [
+                        (allowedToReserve == false)?const Text('You already have a book reservation'):Container(),
+                        (isReserved)?const Text('This book was already reserved'):Container()
+                      ],)
+                      ,),)
+,
                   Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(0, 44, 0, 0),
                     child: Row(
