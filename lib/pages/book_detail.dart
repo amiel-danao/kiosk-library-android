@@ -28,6 +28,7 @@ class _BookDetailsWidgetState extends State<BookDetailsWidget>
   late bool allowedToReserve = false;
   late bool isReserved = false;
   bool isLoading = false;
+  final emptyThumbnail = 'https://free-images.com/or/b724/comic_image_missing_svg.jpg';
 
   @override
   void initState() {
@@ -164,15 +165,16 @@ class _BookDetailsWidgetState extends State<BookDetailsWidget>
                                 alignment: const AlignmentDirectional(0, 0),
                                 child: InkWell(
                                   child: Hero(
-                                    tag: widget.bookRef.thumbnail??
-                                        'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/sample-app-property-finder-834ebu/assets/oowrriphtb4n/hero_home@3x.jpg',
+                                    tag: widget.bookRef.thumbnail?.isEmpty ?? emptyThumbnail,
                                     transitionOnUserGestures: true,
                                     child: ClipRRect(
                                       borderRadius:
                                       BorderRadius.circular(16),
                                       child: CachedNetworkImage(
                                         imageUrl:
-                                        widget.bookRef.thumbnail??'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/sample-app-property-finder-834ebu/assets/oowrriphtb4n/hero_home@3x.jpg'
+                                        (widget.bookRef.thumbnail?.isEmpty ?? true)?
+                                        emptyThumbnail:
+                                        widget.bookRef.thumbnail??emptyThumbnail
                                         ,
                                         width: double.infinity,
                                         height: double.infinity,
@@ -251,7 +253,7 @@ class _BookDetailsWidgetState extends State<BookDetailsWidget>
                           child: Text(
                             widget.bookRef.author,
                             style: Theme.of(context)
-                                .textTheme.bodyMedium                                    ,
+                                .textTheme.bodyMedium,
                           ),
                         ),
                       ],

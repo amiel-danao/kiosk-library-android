@@ -1,11 +1,14 @@
-import 'dart:convert';
-import 'package:ncst_kiosk_library/models/book_instance.dart';
 import 'package:http/http.dart' as http;
 import '../utils/environment.dart';
 
-Future<String?> fetchBooksInstances() async {
+Future<String?> fetchBooksInstances(String searchKey) async {
   String? books;
-  final response = await http.get(Uri.parse(Environment.bookInstanceUrl));
+  final queryParameters = {
+    'search': searchKey,
+  };
+  final uri = Uri.https(Environment.domain, '/${Environment.bookInstanceUrl}', queryParameters);
+  // final uri = Uri.parse(Environment.bookInstanceUrl);
+  final response = await http.get(uri);
 
   if (response.statusCode == 200){
     books = response.body;

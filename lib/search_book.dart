@@ -23,6 +23,7 @@ class _SearchBookWidget extends State<SearchBookWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final logger = SimpleLogger();
   late Future<String> books;
+  final searchInput = TextEditingController();
 
   final columns = [
     JsonTableColumn("title", label: "Title"),
@@ -48,8 +49,8 @@ class _SearchBookWidget extends State<SearchBookWidget> {
     setState(() {
       isLoading = true;
     });
-    jsonSample = await fetchBooksInstances();
-    decoded = jsonDecode(jsonSample as String);
+    jsonSample = await fetchBooksInstances(searchInput.value.text);
+    decoded = json.decode(jsonSample as String);
     setState(() {
       isLoading = false;
     });
@@ -95,7 +96,7 @@ class _SearchBookWidget extends State<SearchBookWidget> {
         },
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
-        child: const Icon(Icons.search),
+        child: const Icon(Icons.refresh),
       ),
       body:
       Column(
@@ -110,13 +111,24 @@ class _SearchBookWidget extends State<SearchBookWidget> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                child: Column(
+                child:
+
+                SingleChildScrollView(
+                    padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 60, top: 16.0),
+                    child:
+                Column(
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(
-
+                        controller: searchInput,
                         decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.search),
+                            onPressed: (){
+                              getBooks();
+                            },
+                          ),
                           border: const OutlineInputBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(8)),
@@ -133,9 +145,7 @@ class _SearchBookWidget extends State<SearchBookWidget> {
 
 
 
-                      SingleChildScrollView(
-                        padding: const EdgeInsets.all(16.0),
-                        child:
+
 
                             Container(
                               decoration: BoxDecoration(
@@ -145,6 +155,9 @@ class _SearchBookWidget extends State<SearchBookWidget> {
                               children: <Widget>[
                                 (isLoading)?
                                 circularProgress():
+                                (decoded == null || decoded.length == 0)?
+                                    const Text('No search result')
+                                    :
                                 JsonTable(
                                   decoded,
                                   columns: columns,
@@ -192,22 +205,13 @@ class _SearchBookWidget extends State<SearchBookWidget> {
                                 ),
                               ],
                             ),)
-
-
-
-
-
-
-                      ),
-
-
-
-
-
-
+                      ,
 
                   ],
-                )),
+                )
+                )
+
+            ),
           ),
         ],
       ),
