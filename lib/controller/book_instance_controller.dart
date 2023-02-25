@@ -16,3 +16,18 @@ Future<String?> fetchBooksInstances(String searchKey, {String status=''}) async 
   }
   return books;
 }
+
+Future<String?> fetchBorrowedBooks(String studentId) async {
+  String? books;
+  final queryParameters = {
+    'borrower': studentId
+  };
+
+  final uri = Uri.https(Environment.domain, Environment.borrowedUrl, queryParameters);
+  final response = await http.get(uri);
+
+  if (response.statusCode == 200){
+    books = response.body;
+  }
+  return books;
+}

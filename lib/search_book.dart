@@ -40,7 +40,9 @@ class _SearchBookWidget extends State<SearchBookWidget> {
 
   dynamic decoded;
 
-  final List<String> bookStates= ["All", "On loan", "Available", "Reserved"];
+  final List<String> bookStates = ["All", "On loan", "Available", "Reserved"];
+  late Map<String, String> sortColumnNames = {};
+  late Map<String, bool> sortColumnStates= {};
 
   String selectedStatus = '';
 
@@ -48,6 +50,11 @@ class _SearchBookWidget extends State<SearchBookWidget> {
   initState(){
     super.initState();
     getBooks();
+
+    for(var column in columns){
+      sortColumnNames[column.label??''] = column.field??'';
+      sortColumnStates[column.label??''] = false;
+    }
   }
 
   getBooks() async {
@@ -59,6 +66,20 @@ class _SearchBookWidget extends State<SearchBookWidget> {
     setState(() {
       decoded = json.decode(jsonSample as String);
       isLoading = false;
+    });
+  }
+
+  sortBooks(){
+    var unsorted = decoded;
+    List<BookInstance> booksList =
+    unsorted.map((d) => BookInstance.fromJson(d)).toList();
+
+    booksList.sort((bookA, bookB) {
+      return bookA.title.toLowerCase().compareTo(bookB.title.toLowerCase());
+    });
+
+    setState(() {
+      decoded = booksList.map((e) => e.toJson());
     });
   }
 
@@ -202,16 +223,40 @@ class _SearchBookWidget extends State<SearchBookWidget> {
                                     );
                                   },
                                   tableHeaderBuilder: (header) {
-                                    return Container(
+                                    return
+                                      Container(
                                       padding: const EdgeInsets.all(9),
                                       decoration: BoxDecoration(
                                           border: Border.all(width: 0.5, color: Colors.grey)
                                           , color: Colors.white),
-                                      child: Text(
-                                        header!,
-                                        textAlign: TextAlign.center,
-                                        style: Theme.of(context).textTheme.headlineMedium,
-                                      ),
+                                      child:
+                                      Center(child:
+                                      Row(
+                                        children: [
+                                          IconButton(
+                                            icon: Icon(
+                                              sortColumnStates[header] == true?Icons.arrow_upward:Icons.arrow_downward, color: Colors.black,),
+                                            tooltip: 'Sort by $header',
+                                            onPressed: () {
+                                              String columnName = header??'';
+                                              setState(() {
+                                                sortColumnStates[columnName] = !sortColumnStates[columnName]!;
+                                              });
+                                              sortBooks();
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                    content: Text("Sorted by $header")),
+                                              );
+                                            },
+                                          ),
+                                          Text(
+                                            header!,
+                                            textAlign: TextAlign.center,
+                                            style: Theme.of(context).textTheme.headlineMedium,
+                                          )
+                                        ],
+                                      )),
                                     );
                                   },
                                   tableCellBuilder: (value) {

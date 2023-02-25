@@ -58,8 +58,9 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Expanded(
-            child: Container(
+          // Expanded(
+          //   child:
+            Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/bg2.png'),
@@ -85,12 +86,11 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
 
                             child: Column(
                               children: <Widget>[
-                                SizedBox(
+                                const SizedBox(
                                   child: Padding(
-                                    padding: const EdgeInsets.all(40),
-                                    child: Image.network(
-                                      'https://upload.wikimedia.org/wikipedia/commons/8/88/NCST-MAIN_LOGO.png',
-                                    ),
+                                    padding: EdgeInsets.all(40),
+                                    child: Image(image: AssetImage('assets/icon/logo.png'),)
+                                    ,
                                   ),
                                 ),
                                 Padding(
@@ -107,6 +107,9 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                       filled: true,
                                       fillColor: Colors.white,
                                       hintText: "Student Email",
+                                        label: Text("Student Email", style: TextStyle(color: Colors.black),),
+                                        floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                        floatingLabelAlignment: FloatingLabelAlignment.start
                                     ),
                                     style: const TextStyle(
                                       fontSize: 12,
@@ -128,6 +131,9 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                       filled: true,
                                       fillColor: Colors.white,
                                       hintText: "Password",
+                                        label: Text("Password", style: TextStyle(color: Colors.black),),
+                                        floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                      floatingLabelAlignment: FloatingLabelAlignment.start
                                     ),
                                     validator: (String? value) {
                                       if (value!.trim().isEmpty) {
@@ -195,8 +201,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                     if(mounted){
                                                     ScaffoldMessenger.of(context)
                                                         .showSnackBar(
-                                                      SnackBar(
-                                                          content: Text(response.body)),
+                                                      const SnackBar(
+                                                          content: Text("Sign in failed, either wrong password or account doesn't exists")),
                                                     );}
                                                   }
                                                   setState(() {
@@ -226,41 +232,6 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                           ),
                                         ),
                                       ),
-                                      /*
-                                      Padding(
-                                        padding: const EdgeInsets.all(0.0),
-                                        child: SizedBox(
-                                          width: 120,
-                                          height: 50,
-                                          child: ElevatedButton(
-                                            onPressed: () {
-                                              // Perform some action
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                const SnackBar(content: Text('Not yet implemented!')),
-                                              );
-                                            },
-                                            style: ButtonStyle(
-                                                backgroundColor:
-                                                    MaterialStateProperty.all(
-                                                        const Color(0xFF0329CC)),
-                                                shape: MaterialStateProperty.all(
-                                                    RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                        side: const BorderSide(
-                                                            color: Color(
-                                                                0xFFEEEF08),
-                                                            width: 2))),
-                                                textStyle:
-                                                    MaterialStateProperty.all(
-                                                        const TextStyle(
-                                                            color: Colors.white))),
-                                            child: const Text('Register'),
-                                          ),
-                                        ),
-                                      ),
-                                    */
                                     ],
                                   ),
                                 )
@@ -277,7 +248,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
 
               ),
             ),
-          ),
+          // ),
 
           (isLoading)?
               circularProgress()

@@ -82,7 +82,7 @@ class _BookDetailsWidgetState extends State<BookDetailsWidget>
         endDrawer:
         SideDrawerWidget(student: widget.student,),
       floatingActionButton:
-      allowedToReserve && !isLoading?
+      isReserved == false && allowedToReserve && !isLoading?
       FloatingActionButton.extended(
         onPressed: () async {
           var res = await showDialog<String>(
@@ -144,7 +144,7 @@ class _BookDetailsWidgetState extends State<BookDetailsWidget>
                     child: Padding(padding: const EdgeInsetsDirectional.all(5),
                       child:
                       Column(children: [
-                        (allowedToReserve == false)?const Text('You already have a book reservation'):Container(),
+                        (allowedToReserve == false && isLoading == false)?const Text('You already have a book reservation'):Container(),
                         (isReserved)?const Text('This book was already reserved'):Container()
                       ],)
                       ,),)
@@ -253,8 +253,35 @@ class _BookDetailsWidgetState extends State<BookDetailsWidget>
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
-                          child: Text(
-                            widget.bookRef.author,
+                          child: Text("Author(s): ${widget.bookRef.author}",
+                            style: Theme.of(context)
+                                .textTheme.bodyMedium,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsetsDirectional.fromSTEB(24, 4, 24, 0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: Text("Location: ${widget.bookRef.location}",
+                            style: Theme.of(context)
+                                .textTheme.bodyMedium,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsetsDirectional.fromSTEB(24, 4, 24, 0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: Text("Status: ${widget.bookRef.status}",
                             style: Theme.of(context)
                                 .textTheme.bodyMedium,
                           ),
@@ -300,28 +327,9 @@ class _BookDetailsWidgetState extends State<BookDetailsWidget>
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Text(
-                          'Publish Date',
+                          'Publish Date: ${widget.bookRef.publishDate}',
                           style: Theme.of(context)
                               .textTheme.bodyMedium,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(24, 4, 24, 0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding:
-                            const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 24),
-                            child: Text(
-                              widget.bookRef.publishDate,
-                              style: Theme.of(context)
-                                  .textTheme.bodyLarge,
-                            ),
-                          ),
                         ),
                       ],
                     ),

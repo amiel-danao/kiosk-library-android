@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../book_page.dart';
+import '../borrowed_book_page.dart';
 import '../models/student.dart';
 import '../search_book.dart';
 
@@ -55,7 +55,7 @@ class SideDrawerWidget extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => BookPageWidget(student: student,)),
+                    builder: (context) => BorrowedBookPageWidget(student: student,)),
               );
             },
           ),
