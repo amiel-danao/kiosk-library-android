@@ -45,3 +45,23 @@ Future<bool> reserveBook(int studentId, String bookInstanceId) async{
 
   return false;
 }
+
+
+Future<bool> deleteReservation(String bookInstanceId) async{
+  final url = Uri.parse("${Environment.reservationUrl}$bookInstanceId/");
+
+  http.delete(url).then((response) {
+    if (response.statusCode == 200) {
+      // Successful DELETE request
+      return true;
+    } else {
+      // Handle unsuccessful DELETE request
+      return false;
+    }
+  }).catchError((error) {
+    // Handle any errors that occurred during the DELETE request
+    return false;
+  });
+
+  return false;
+}

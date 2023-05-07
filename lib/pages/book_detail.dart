@@ -58,9 +58,10 @@ class _BookDetailsWidgetState extends State<BookDetailsWidget>
     if(reservedBook != null) {
       var difference = dateNow.difference(reserveDate);
       timeRemaining = 60 - difference.inMinutes;
-      if (difference.inMinutes <= 60) {
+      if (difference.inMinutes <= 60 && difference.inMinutes > 0) {
 
       } else {
+        await deleteReservation(reservedBook!.id.toString());
         reservedBook = null;
         setState(() {
           allowedToReserve = true;
