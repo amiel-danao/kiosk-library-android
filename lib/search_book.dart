@@ -41,27 +41,34 @@ class _SearchBookWidget extends State<SearchBookWidget> {
   dynamic decoded;
 
   final List<String> bookStates = ["All", "On loan", "Available", "Reserved"];
+  late List<String> genres = ["All"];
   late Map<String, String> sortColumnNames = {};
   late Map<String, bool> sortColumnStates= {};
 
   String selectedStatus = '';
+  String selectedGenre = '';
 
   @override
   initState(){
     super.initState();
     getBooks();
-
+    getGenres();
     for(var column in columns){
       sortColumnNames[column.label??''] = column.field??'';
       sortColumnStates[column.label??''] = false;
     }
   }
 
+  getGenres() async{
+    var fetchedGenres = await fetchGenres();
+    genres = genres + fetchedGenres;
+  }
+
   getBooks() async {
     setState(() {
       isLoading = true;
     });
-    jsonSample = await fetchBooksInstances(searchInput.value.text, status: selectedStatus);
+    jsonSample = await fetchBooksInstances(searchInput.value.text, status: selectedStatus, genre: selectedGenre);
 
     setState(() {
       decoded = json.decode(jsonSample as String);
@@ -175,7 +182,7 @@ class _SearchBookWidget extends State<SearchBookWidget> {
                               child: Column(
                               children: <Widget>[
                                 Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.only(left:8.0, top:0, right:8, bottom:0),
                                     child:Row(
                                   children: [
                                     const Text('Status:'),
@@ -186,8 +193,7 @@ class _SearchBookWidget extends State<SearchBookWidget> {
                                         });
                                       }
                                       else {
-                                        int index = bookStates.indexOf(str!) -
-                                            1;
+                                        int index = bookStates.indexOf(str!) - 1;
                                         logger.info('state: $index');
                                         setState(() {
                                           selectedStatus = '$index';
@@ -196,6 +202,30 @@ class _SearchBookWidget extends State<SearchBookWidget> {
                                       getBooks();
                                     })],
                                 )),
+
+                                Padding(
+                                  padding: const EdgeInsets.only(left:8.0, top:0, right:8, bottom:2),
+                                  child:Row(
+                                    children: [
+                                const Text('Genre:'),
+                                DropdownButtonExample(
+
+                                    list: genres, onChange: (str){
+                                  if (str == 'All'){
+                                    setState(() {
+                                      selectedGenre = '';
+                                    });
+                                  }
+                                  else {
+                                    // int index = genres.indexOf(str!) - 1;
+                                    logger.info('genre: $str');
+                                    setState(() {
+                                      selectedGenre = str!;
+                                    });
+                                  }
+                                  getBooks();
+                                })
+                                ])),
 
                                 (isLoading)?
                                 circularProgress():
