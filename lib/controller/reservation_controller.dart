@@ -25,6 +25,10 @@ Future<Reservation?> fetchReservedBook({String? studentId, String? bookInstanceI
 }
 
 Future<bool> reserveBook(int studentId, String bookInstanceId) async{
+  //re-check if this book is not yet reserved
+
+
+
   final jsonData = json.encode({"student": studentId, "book_instance": bookInstanceId});
 
   final createResponse = await http.post(

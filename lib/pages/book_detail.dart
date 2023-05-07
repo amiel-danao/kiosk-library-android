@@ -1,5 +1,7 @@
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:ncst_kiosk_library/controller/reservation_controller.dart';
+import 'package:ncst_kiosk_library/models/reservation.dart';
 
 import '../models/book_instance.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -29,6 +31,11 @@ class _BookDetailsWidgetState extends State<BookDetailsWidget>
   late bool isReserved = false;
   bool isLoading = false;
   final emptyThumbnail = 'https://free-images.com/or/b724/comic_image_missing_svg.jpg';
+  Reservation? reservedBook;
+  final DateTime dateNow = DateTime.now();
+  late DateTime reserveDate;
+
+  int timeRemaining = 0;
 
   @override
   void initState() {
@@ -37,15 +44,31 @@ class _BookDetailsWidgetState extends State<BookDetailsWidget>
   }
 
   Future<void> getAllowedToBorrow() async {
-    var res = await fetchReservedBook(studentId: widget.student.schoolId);
+    reservedBook = await fetchReservedBook(studentId: widget.student.schoolId);
 
-    if (res == null){
+    if (reservedBook == null){
       setState(() {
         allowedToReserve = true;
       });
     }
+    else{
+      reserveDate = DateFormat("yyyy-MM-ddThh:mm").parse(reservedBook!.dateReserved);
+    }
 
-    res = await fetchReservedBook(bookInstanceId: widget.bookRef.id);
+    if(reservedBook != null) {
+      var difference = dateNow.difference(reserveDate);
+      timeRemaining = 60 - difference.inMinutes;
+      if (difference.inMinutes <= 60) {
+
+      } else {
+        reservedBook = null;
+        setState(() {
+          allowedToReserve = true;
+        });
+      }
+    }
+
+    var res = await fetchReservedBook(bookInstanceId: widget.bookRef.id);
     if(res != null || widget.bookRef.status == 'Reserved'){
       setState(() {
         isReserved = true;
@@ -107,16 +130,31 @@ class _BookDetailsWidgetState extends State<BookDetailsWidget>
             setState(() {
               isLoading = true;
             });
-            var res = await reserveBook(widget.student.id, widget.bookRef.id);
-            if (res){
+            var res = await fetchReservedBook(bookInstanceId: widget.bookRef.id);
+            if(res != null || widget.bookRef.status == 'Reserved'){
               Fluttertoast.showToast(
-                  msg: "Book reserved successfully.",
-                  toastLength: Toast.LENGTH_SHORT,
+                msg: "This was already reserved!",
+                toastLength: Toast.LENGTH_SHORT,
               );
               setState(() {
                 allowedToReserve = false;
+                isReserved = false;
               });
             }
+            else {
+              var reserved = await reserveBook(
+                  widget.student.id, widget.bookRef.id);
+              if (reserved) {
+                Fluttertoast.showToast(
+                  msg: "Book reserved successfully.",
+                  toastLength: Toast.LENGTH_SHORT,
+                );
+                setState(() {
+                  allowedToReserve = false;
+                });
+              }
+            }
+
             setState(() {
               isLoading = false;
             });
@@ -143,10 +181,16 @@ class _BookDetailsWidgetState extends State<BookDetailsWidget>
                     ),
                     child: Padding(padding: const EdgeInsetsDirectional.all(5),
                       child:
+                      (isLoading == false)?
                       Column(children: [
-                        (allowedToReserve == false && isLoading == false)?const Text('You already have a book reservation'):Container(),
-                        (isReserved)?const Text('This book was already reserved'):Container()
+                        (allowedToReserve == false && isReserved == false)?const Text('You already have a book reservation'):Container(),
+                        (isReserved && allowedToReserve == true)?const Text('This book was already reserved'):Container(),
+                        (isReserved && allowedToReserve == false)?const Text('You already reserved this book'):Container(),
+                        (reservedBook != null)? Text('$timeRemaining minutes remaining'): Container()
+
                       ],)
+                        :
+                        Container()
                       ,),)
 ,
                   Padding(
